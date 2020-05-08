@@ -1,7 +1,3 @@
-# chord_drs specific
-test.sqlite3
-db.sqlite3
-
 # testing related
 .coverage
 .tox
