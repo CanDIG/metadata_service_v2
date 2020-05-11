@@ -134,6 +134,9 @@ class Chemotherapy(models.Model):
         db_table = 'chemotherapy'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.treatment_plan_id}_{self.systematic_therapy_agent_name}"
+
 
 class Complication(models.Model):
     id = models.TextField(primary_key=True)
@@ -160,6 +163,9 @@ class Complication(models.Model):
         managed = False
         db_table = 'complication'
         unique_together = (('dataset', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.date}"
 
 
 class Consent(models.Model):
@@ -216,6 +222,8 @@ class Consent(models.Model):
         db_table = 'consent'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.consent_date}"
 
 class Dataset(models.Model):
     id = models.TextField(primary_key=True)
@@ -301,6 +309,9 @@ class Diagnosis(models.Model):
         db_table = 'diagnosis'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.diagnosis_date}"
+
 
 class Enrollment(models.Model):
     id = models.TextField(primary_key=True)
@@ -347,6 +358,9 @@ class Enrollment(models.Model):
         managed = False
         db_table = 'enrollment'
         unique_together = (('dataset', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.enrollment_approval_date}"
 
 
 class Expressionanalysis(models.Model):
@@ -507,6 +521,9 @@ class Labtest(models.Model):
         db_table = 'labtest'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.start_date}"
+
 
 class Outcome(models.Model):
     id = models.TextField(primary_key=True)
@@ -557,6 +574,9 @@ class Outcome(models.Model):
         managed = False
         db_table = 'outcome'
         unique_together = (('dataset', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.date_of_assessment}"
 
 
 class Patient(models.Model):
@@ -686,7 +706,7 @@ class Sample(models.Model):
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     #patient_id = models.TextField(db_column='patientId', blank=True, null=True)
-    patient_id = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
+    patient = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
     patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
     sample_id = models.TextField(db_column='sampleId', blank=True, null=True, unique=True)
     sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
@@ -847,6 +867,9 @@ class Slide(models.Model):
         db_table = 'slide'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.slide_id}"
+
 
 class Study(models.Model):
     id = models.TextField(primary_key=True)
@@ -871,6 +894,9 @@ class Study(models.Model):
         managed = False
         db_table = 'study'
         unique_together = (('dataset', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.start_date}"
 
 
 class Surgery(models.Model):
@@ -967,6 +993,8 @@ class Treatment(models.Model):
         db_table = 'treatment'
         unique_together = (('dataset', 'name'),)
 
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.start_date}"
 
 class Tumourboard(models.Model):
     id = models.TextField(primary_key=True)
@@ -1041,6 +1069,9 @@ class Tumourboard(models.Model):
         managed = False
         db_table = 'tumourboard'
         unique_together = (('dataset', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.date_of_molecular_tumor_board}"
 
 
 class Variantcalling(models.Model):

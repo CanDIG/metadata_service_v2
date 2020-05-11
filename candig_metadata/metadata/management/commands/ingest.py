@@ -2,8 +2,26 @@ import json
 import re
 from uuid import uuid4
 from pathlib import Path
+
+from django.db import IntegrityError
 from django.core.management.base import BaseCommand, CommandError
-from candig_metadata.metadata.models import Patient, Sample
+
+from candig_metadata.metadata.models import (
+    Chemotherapy,
+    Complication,
+    Consent,
+    Dataset,
+    Diagnosis,
+    Enrollment,
+    Labtest,
+    Outcome,
+    Patient,
+    Sample,
+    Slide,
+    Study,
+    Tumourboard,
+    Treatment
+)
 
 
 CAMEL_CASE_PATTERN = re.compile(r'(?<!^)(?=[A-Z])')
@@ -43,27 +61,135 @@ class Command(BaseCommand):
         if not file_path.exists():
             raise CommandError('JSON File provided does not exists')
 
+        # TODO: query dataset service to confirm the ID exists?
+        # dirty fix before connection to dataset service is done
+        dataset = Dataset.objects.get_or_create(id=dataset_id)
+
         with open(file_path) as json_file:
             data = json.load(json_file)
 
             for row in data['metadata']:
-                if 'Patient' in row:
-                    patient = Patient(dataset_id=dataset_id)
-                    current_patient_id = row['Patient']['patientId']
+                try:
+                    if 'Patient' in row:
+                        patient = Patient(id=uuid4(), dataset_id=dataset_id)
+                        current_patient_id = row['Patient']['patientId']
 
-                    fields = row['Patient'].keys()
-                    json_to_model(row['Patient'].keys(), row['Patient'], patient)
+                        json_to_model(row['Patient'].keys(), row['Patient'], patient)
 
-                    patient.name = current_patient_id
-                    patient.save()
+                        patient.name = current_patient_id
+                        patient.save()
 
-                if 'Sample' in row:
-                    sample = Sample(dataset_id=dataset_id)
-                    fields = row['Sample'].keys()
-                    json_to_model(row['Sample'].keys(), row['Sample'], sample)
+                        print(f"Ingesting patient #{current_patient_id}")
 
-                    sample.generate_name(current_patient_id)
-                    sample.save()
+                    if 'Sample' in row:
+                        sample = Sample(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Sample'].keys(), row['Sample'], sample)
 
-                # TODO: Yup, import the other models also
-                # TODO: Do not forget to generate the "name" field for these
+                        sample.generate_name(current_patient_id)
+                        sample.save()
+
+                        print(f"Ingesting sample #{sample.name}")
+
+                    if 'Chemotherapy' in row:
+                        chemotherapy = Chemotherapy(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Chemotherapy'].keys(), row['Chemotherapy'], chemotherapy)
+
+                        chemotherapy.generate_name(current_patient_id)
+                        chemotherapy.save()
+
+                        print(f"Ingesting chemotherapy #{chemotherapy.name}")
+
+                    if 'Complication' in row:
+                        complication = Complication(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Complication'].keys(), row['Complication'], complication)
+
+                        complication.generate_name(current_patient_id)
+                        complication.save()
+
+                        print(f"Ingesting complication #{complication.name}")
+
+                    if 'Consent' in row:
+                        consent = Consent(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Consent'].keys(), row['Consent'], consent)
+
+                        consent.generate_name(current_patient_id)
+                        consent.save()
+
+                        print(f"Ingesting consent #{consent.name}")
+
+                    if 'Diagnosis' in row:
+                        diagnosis = Diagnosis(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Diagnosis'].keys(), row['Diagnosis'], diagnosis)
+
+                        diagnosis.generate_name(current_patient_id)
+                        diagnosis.save()
+
+                        print(f"Ingesting diagnosis #{diagnosis.name}")
+
+                    if 'Enrollment' in row:
+                        enrollment = Enrollment(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Enrollment'].keys(), row['Enrollment'], enrollment)
+
+                        enrollment.generate_name(current_patient_id)
+                        enrollment.save()
+
+                        print(f"Ingesting enrollment #{enrollment.name}")
+
+                    if 'Labtest' in row:
+                        labtest = Labtest(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Labtest'].keys(), row['Labtest'], labtest)
+
+                        labtest.generate_name(current_patient_id)
+                        labtest.save()
+
+                        print(f"Ingesting labtest #{labtest.name}")
+
+                    if 'Outcome' in row:
+                        outcome = Outcome(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Outcome'].keys(), row['Outcome'], outcome)
+
+                        outcome.generate_name(current_patient_id)
+                        outcome.save()
+
+                        print(f"Ingesting outcome #{outcome.name}")
+
+                    if 'Slide' in row:
+                        slide = Slide(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Slide'].keys(), row['Slide'], slide)
+
+                        slide.generate_name(current_patient_id)
+                        slide.save()
+
+                        print(f"Ingesting slide #{slide.name}")
+
+                    if 'Study' in row:
+                        study = Study(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Study'].keys(), row['Study'], study)
+
+                        study.generate_name(current_patient_id)
+                        study.save()
+
+                        print(f"Ingesting study #{study.name}")
+
+                    if 'Tumourboard' in row:
+                        tumourboard = Tumourboard(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Tumourboard'].keys(), row['Tumourboard'], tumourboard)
+
+                        tumourboard.generate_name(current_patient_id)
+                        tumourboard.save()
+
+                        print(f"Ingesting tumourboard #{tumourboard.name}")
+
+                    if 'Treatment' in row:
+                        treatment = Treatment(id=uuid4(), dataset_id=dataset_id)
+                        json_to_model(row['Treatment'].keys(), row['Treatment'], treatment)
+
+                        treatment.generate_name(current_patient_id)
+                        treatment.save()
+
+                        print(f"Ingesting complication #{complication.name}")
+                except IntegrityError:
+                    if 'Patient' in row:
+                        print(f"Duplicate entry for patient {row['Patient']['PatientId']}")
+                    else:
+                        print("Duplicate entry but no patient found")
