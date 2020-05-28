@@ -8,6 +8,70 @@
 from django.db import models
 
 
+class Dataset(models.Model):
+    id = models.TextField(primary_key=True)
+    attributes = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    info = models.TextField(blank=True, null=True)
+    name = models.TextField(unique=True)
+
+    class Meta:
+        managed = False
+        db_table = 'dataset'
+
+
+class Patient(models.Model):
+    id = models.TextField(primary_key=True)
+    attributes = models.TextField(blank=True, null=True)
+    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    created = models.TextField()
+    updated = models.TextField(blank=True, null=True)
+    name = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    patient_id = models.TextField(db_column='patientId', blank=True, null=True, unique=True)
+    patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
+    other_ids = models.TextField(db_column='otherIds', blank=True, null=True)
+    other_ids_tier = models.IntegerField(db_column='otherIdsTier', blank=True, null=True)
+    date_of_birth = models.TextField(db_column='dateOfBirth', blank=True, null=True)
+    date_of_birth_tier = models.IntegerField(db_column='dateOfBirthTier', blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    gender_tier = models.IntegerField(db_column='genderTier', blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
+    ethnicity_tier = models.IntegerField(db_column='ethnicityTier', blank=True, null=True)
+    race = models.TextField(blank=True, null=True)
+    race_tier = models.IntegerField(db_column='raceTier', blank=True, null=True)
+    province_of_residence = models.TextField(db_column='provinceOfResidence', blank=True, null=True)
+    province_of_residence_tier = models.IntegerField(db_column='provinceOfResidenceTier', blank=True, null=True)
+    date_of_death = models.TextField(db_column='dateOfDeath', blank=True, null=True)
+    date_of_death_tier = models.IntegerField(db_column='dateOfDeathTier', blank=True, null=True)
+    cause_of_death = models.TextField(db_column='causeOfDeath', blank=True, null=True)
+    cause_of_death_tier = models.IntegerField(db_column='causeOfDeathTier', blank=True, null=True)
+    autopsy_tissue_for_research = models.TextField(db_column='autopsyTissueForResearch', blank=True, null=True)
+    autopsy_tissue_for_research_tier = models.IntegerField(db_column='autopsyTissueForResearchTier', blank=True, null=True)
+    prior_malignancy = models.TextField(db_column='priorMalignancy', blank=True, null=True)
+    prior_malignancy_tier = models.IntegerField(db_column='priorMalignancyTier', blank=True, null=True)
+    date_of_prior_malignancy = models.TextField(db_column='dateOfPriorMalignancy', blank=True, null=True)
+    date_of_prior_malignancy_tier = models.IntegerField(db_column='dateOfPriorMalignancyTier', blank=True, null=True)
+    family_history_and_risk_factors = models.TextField(db_column='familyHistoryAndRiskFactors', blank=True, null=True)
+    family_history_and_risk_factors_tier = models.IntegerField(db_column='familyHistoryAndRiskFactorsTier', blank=True, null=True)
+    family_history_of_predisposition_syndrome = models.TextField(db_column='familyHistoryOfPredispositionSyndrome', blank=True, null=True)
+    family_history_of_predisposition_syndrome_tier = models.IntegerField(db_column='familyHistoryOfPredispositionSyndromeTier', blank=True, null=True)
+    details_of_predisposition_syndrome = models.TextField(db_column='detailsOfPredispositionSyndrome', blank=True, null=True)
+    details_of_predisposition_syndrome_tier = models.IntegerField(db_column='detailsOfPredispositionSyndromeTier', blank=True, null=True)
+    genetic_cancer_syndrome = models.TextField(db_column='geneticCancerSyndrome', blank=True, null=True)
+    genetic_cancer_syndrome_tier = models.IntegerField(db_column='geneticCancerSyndromeTier', blank=True, null=True)
+    other_genetic_condition_or_significant_comorbidity = models.TextField(db_column='otherGeneticConditionOrSignificantComorbidity', blank=True, null=True)
+    other_genetic_condition_or_significant_comorbidity_tier = models.IntegerField(db_column='otherGeneticConditionOrSignificantComorbidityTier', blank=True, null=True)
+    occupational_or_environmental_exposure = models.TextField(db_column='occupationalOrEnvironmentalExposure', blank=True, null=True)
+    occupational_or_environmental_exposure_tier = models.IntegerField(db_column='occupationalOrEnvironmentalExposureTier', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'patient'
+        unique_together = (('dataset', 'name'),)
+
+
+# TODO: Keep or not?
 class Alignment(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -59,6 +123,7 @@ class Alignment(models.Model):
         unique_together = (('dataset', 'name'),)
 
 
+# TODO: Keep or not?
 class Celltransplant(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -94,7 +159,8 @@ class Chemotherapy(models.Model):
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    #patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    patient = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
     patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
     course_number = models.TextField(db_column='courseNumber', blank=True, null=True)
     course_number_tier = models.IntegerField(db_column='courseNumberTier', blank=True, null=True)
@@ -146,7 +212,8 @@ class Complication(models.Model):
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    #patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    patient = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
     patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
     date = models.TextField(blank=True, null=True)
     date_tier = models.IntegerField(db_column='dateTier', blank=True, null=True)
@@ -176,7 +243,8 @@ class Consent(models.Model):
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    #patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    patient = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
     patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
     consent_id = models.TextField(db_column='consentId', blank=True, null=True)
     consent_id_tier = models.IntegerField(db_column='consentIdTier', blank=True, null=True)
@@ -224,18 +292,6 @@ class Consent(models.Model):
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.consent_date}"
-
-class Dataset(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    info = models.TextField(blank=True, null=True)
-    name = models.TextField(unique=True)
-
-    class Meta:
-        managed = False
-        db_table = 'dataset'
-
 
 class Diagnosis(models.Model):
     id = models.TextField(primary_key=True)
@@ -363,6 +419,7 @@ class Enrollment(models.Model):
         self.name = f"{patient_id}_{self.enrollment_approval_date}"
 
 
+# TODO: Keep or not?
 class Expressionanalysis(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -396,6 +453,7 @@ class Expressionanalysis(models.Model):
         unique_together = (('dataset', 'name'),)
 
 
+# TODO: Keep or not?
 class Extraction(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -425,6 +483,7 @@ class Extraction(models.Model):
         unique_together = (('dataset', 'name'),)
 
 
+# TODO: Keep or not?
 class Fusiondetection(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -491,6 +550,7 @@ class Immunotherapy(models.Model):
         unique_together = (('dataset', 'name'),)
 
 
+# TODO: Keep or not?
 class Labtest(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -577,57 +637,6 @@ class Outcome(models.Model):
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.date_of_assessment}"
-
-
-class Patient(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True, unique=True)
-    patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
-    other_ids = models.TextField(db_column='otherIds', blank=True, null=True)
-    other_ids_tier = models.IntegerField(db_column='otherIdsTier', blank=True, null=True)
-    date_of_birth = models.TextField(db_column='dateOfBirth', blank=True, null=True)
-    date_of_birth_tier = models.IntegerField(db_column='dateOfBirthTier', blank=True, null=True)
-    gender = models.TextField(blank=True, null=True)
-    gender_tier = models.IntegerField(db_column='genderTier', blank=True, null=True)
-    ethnicity = models.TextField(blank=True, null=True)
-    ethnicity_tier = models.IntegerField(db_column='ethnicityTier', blank=True, null=True)
-    race = models.TextField(blank=True, null=True)
-    race_tier = models.IntegerField(db_column='raceTier', blank=True, null=True)
-    province_of_residence = models.TextField(db_column='provinceOfResidence', blank=True, null=True)
-    province_of_residence_tier = models.IntegerField(db_column='provinceOfResidenceTier', blank=True, null=True)
-    date_of_death = models.TextField(db_column='dateOfDeath', blank=True, null=True)
-    date_of_death_tier = models.IntegerField(db_column='dateOfDeathTier', blank=True, null=True)
-    cause_of_death = models.TextField(db_column='causeOfDeath', blank=True, null=True)
-    cause_of_death_tier = models.IntegerField(db_column='causeOfDeathTier', blank=True, null=True)
-    autopsy_tissue_for_research = models.TextField(db_column='autopsyTissueForResearch', blank=True, null=True)
-    autopsy_tissue_for_research_tier = models.IntegerField(db_column='autopsyTissueForResearchTier', blank=True, null=True)
-    prior_malignancy = models.TextField(db_column='priorMalignancy', blank=True, null=True)
-    prior_malignancy_tier = models.IntegerField(db_column='priorMalignancyTier', blank=True, null=True)
-    date_of_prior_malignancy = models.TextField(db_column='dateOfPriorMalignancy', blank=True, null=True)
-    date_of_prior_malignancy_tier = models.IntegerField(db_column='dateOfPriorMalignancyTier', blank=True, null=True)
-    family_history_and_risk_factors = models.TextField(db_column='familyHistoryAndRiskFactors', blank=True, null=True)
-    family_history_and_risk_factors_tier = models.IntegerField(db_column='familyHistoryAndRiskFactorsTier', blank=True, null=True)
-    family_history_of_predisposition_syndrome = models.TextField(db_column='familyHistoryOfPredispositionSyndrome', blank=True, null=True)
-    family_history_of_predisposition_syndrome_tier = models.IntegerField(db_column='familyHistoryOfPredispositionSyndromeTier', blank=True, null=True)
-    details_of_predisposition_syndrome = models.TextField(db_column='detailsOfPredispositionSyndrome', blank=True, null=True)
-    details_of_predisposition_syndrome_tier = models.IntegerField(db_column='detailsOfPredispositionSyndromeTier', blank=True, null=True)
-    genetic_cancer_syndrome = models.TextField(db_column='geneticCancerSyndrome', blank=True, null=True)
-    genetic_cancer_syndrome_tier = models.IntegerField(db_column='geneticCancerSyndromeTier', blank=True, null=True)
-    other_genetic_condition_or_significant_comorbidity = models.TextField(db_column='otherGeneticConditionOrSignificantComorbidity', blank=True, null=True)
-    other_genetic_condition_or_significant_comorbidity_tier = models.IntegerField(db_column='otherGeneticConditionOrSignificantComorbidityTier', blank=True, null=True)
-    occupational_or_environmental_exposure = models.TextField(db_column='occupationalOrEnvironmentalExposure', blank=True, null=True)
-    occupational_or_environmental_exposure_tier = models.IntegerField(db_column='occupationalOrEnvironmentalExposureTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'patient'
-        unique_together = (('dataset', 'name'),)
 
 
 class Radiotherapy(models.Model):
@@ -770,17 +779,7 @@ class Sample(models.Model):
         self.name = f"{patient_id}_{self.sample_id}"
 
 
-class SampleURL(models.Model):
-    # TODO: useless normally, but need it because not managed
-    id = models.IntegerField(primary_key=True)
-    sample_id = models.ForeignKey(Sample, models.DO_NOTHING, to_field='sample_id', db_column='sampleId')
-    url = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'sample_url'
-
-
+# TODO: Keep or not?
 class Sequencing(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -937,6 +936,7 @@ class Surgery(models.Model):
         unique_together = (('dataset', 'name'),)
 
 
+# TODO: Keep or not?
 class System(models.Model):
     key = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
@@ -1074,6 +1074,7 @@ class Tumourboard(models.Model):
         self.name = f"{patient_id}_{self.date_of_molecular_tumor_board}"
 
 
+# TODO: Keep or not?
 class Variantcalling(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
