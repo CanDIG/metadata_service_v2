@@ -12,10 +12,17 @@ from candig_metadata.metadata.models import (
     Complication,
     Consent,
     Diagnosis,
+    Enrollment,
+    Immunotherapy,
+    Outcome,
     Patient,
     Sample,
-    Sequencing,
-    Surgery
+    Radiotherapy,
+    Slide,
+    Study,
+    Surgery,
+    Treatment,
+    Tumourboard
 )
 from candig_metadata.metadata.utils import resolve_field_factory
 
@@ -50,6 +57,21 @@ class DiagnosisType(DjangoObjectType):
         model = Diagnosis
 
 
+class EnrollmentType(DjangoObjectType):
+    class Meta:
+        model = Enrollment
+
+
+class ImmunotherapyType(DjangoObjectType):
+    class Meta:
+        model = Immunotherapy
+
+
+class OutcomeType(DjangoObjectType):
+    class Meta:
+        model = Outcome
+
+
 class SampleType(DjangoObjectType):
     class Meta:
         model = Sample
@@ -57,6 +79,36 @@ class SampleType(DjangoObjectType):
             "sample_id": ("exact",),
             "sample_type": ("icontains", "iexact")
         }
+
+
+class RadiotherapyType(DjangoObjectType):
+    class Meta:
+        model = Radiotherapy
+
+
+class SlideType(DjangoObjectType):
+    class Meta:
+        model = Slide
+
+
+class StudyType(DjangoObjectType):
+    class Meta:
+        model = Study
+
+
+class SurgeryType(DjangoObjectType):
+    class Meta:
+        model = Surgery
+
+
+class TreatmentType(DjangoObjectType):
+    class Meta:
+        model = Treatment
+
+
+class TumourboardType(DjangoObjectType):
+    class Meta:
+        model = Tumourboard
 
 
 class PatientType(DjangoObjectType):
@@ -70,10 +122,23 @@ class PatientType(DjangoObjectType):
             "name": ("icontains", "iexact")
         }
 
+    # These let use relationship in the style of GraphQL instead
+    # of Django's
+    # sample_set -> samples
     chemotherapies = graphene.List(ChemotherapyType)
     complications = graphene.List(ComplicationType)
     consents = graphene.List(ConsentType)
+    diagnoses = graphene.List(DiagnosisType)
+    enrollments = graphene.List(EnrollmentType)
+    immunotherapies = graphene.List(ImmunotherapyType)
+    outcomes = graphene.List(OutcomeType)
+    radiotherapies = graphene.List(RadiotherapyType)
     samples = graphene.List(SampleType)
+    slides = graphene.List(SlideType)
+    studies = graphene.List(StudyType)
+    surgeries = graphene.List(SurgeryType)
+    treatments = graphene.List(TreatmentType)
+    tumourboards = graphene.List(TumourboardType)
 
     def resolve_chemotherapies(self, info):
         return self.chemotherapy_set.all()
@@ -84,18 +149,38 @@ class PatientType(DjangoObjectType):
     def resolve_consents(self, info):
         return self.consent_set.all()
 
+    def resolve_diagnoses(self, info):
+        return self.diagnosis_set.all()
+
+    def resolve_enrollments(self, info):
+        return self.enrollment_set.all()
+
+    def resolve_immunotherapies(self, info):
+        return self.immunotherapy_set.all()
+
+    def resolve_outcomes(self, info):
+        return self.outcome_set.all()
+
+    def resolve_radiotherapies(self, info):
+        return self.radiotherapy_set.all()
+
     def resolve_samples(self, info):
         return self.sample_set.all()
 
+    def resolve_slides(self, info):
+        return self.slide_set.all()
 
-class SequencingType(DjangoObjectType):
-    class Meta:
-        model = Sequencing
+    def resolve_studies(self, info):
+        return self.study_set.all()
 
+    def resolve_surgeries(self, info):
+        return self.surgery_set.all()
 
-class SurgeryType(DjangoObjectType):
-    class Meta:
-        model = Surgery
+    def resolve_treatments(self, info):
+        return self.treatment_set.all()
+
+    def resolve_tumourboards(self, info):
+        return self.tumourboard_set.all()
 
 
 GRAPHQL_OBJECTS = [PatientType]
@@ -128,8 +213,15 @@ class Query:
     chemotherapies = DjangoFilterListField(ChemotherapyType)
     complications = DjangoFilterListField(ComplicationType)
     consents = DjangoFilterListField(ConsentType)
-    diagnosis = DjangoFilterListField(DiagnosisType)
+    diagnoses = DjangoFilterListField(DiagnosisType)
+    enrollments = DjangoFilterListField(EnrollmentType)
+    immunotherapies = DjangoFilterListField(ImmunotherapyType)
+    outcomes = DjangoFilterListField(OutcomeType)
     patients = DjangoFilterListField(PatientType)
+    radiotherapies = DjangoFilterListField(RadiotherapyType)
     samples = DjangoFilterListField(SampleType)
-    sequencing = DjangoFilterListField(SequencingType)
-    surgery = DjangoFilterListField(SurgeryType)
+    slides = DjangoFilterListField(SlideType)
+    studies = DjangoFilterListField(StudyType)
+    surgeries = DjangoFilterListField(SurgeryType)
+    treatments = DjangoFilterListField(TreatmentType)
+    tumourboards = DjangoFilterListField(TumourboardType)
