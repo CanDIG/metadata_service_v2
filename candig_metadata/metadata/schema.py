@@ -14,6 +14,7 @@ from candig_metadata.metadata.models import (
     Diagnosis,
     Enrollment,
     Immunotherapy,
+    Labtest,
     Outcome,
     Patient,
     Sample,
@@ -21,8 +22,8 @@ from candig_metadata.metadata.models import (
     Slide,
     Study,
     Surgery,
-    Treatment,
-    Tumourboard
+    Tumourboard,
+    Treatment
 )
 from candig_metadata.metadata.utils import resolve_field_factory
 
@@ -65,6 +66,11 @@ class EnrollmentType(DjangoObjectType):
 class ImmunotherapyType(DjangoObjectType):
     class Meta:
         model = Immunotherapy
+
+
+class LabtestType(DjangoObjectType):
+    class Meta:
+        model = Labtest
 
 
 class OutcomeType(DjangoObjectType):
@@ -131,6 +137,7 @@ class PatientType(DjangoObjectType):
     diagnoses = graphene.List(DiagnosisType)
     enrollments = graphene.List(EnrollmentType)
     immunotherapies = graphene.List(ImmunotherapyType)
+    labtests = graphene.List(LabtestType)
     outcomes = graphene.List(OutcomeType)
     radiotherapies = graphene.List(RadiotherapyType)
     samples = graphene.List(SampleType)
@@ -157,6 +164,9 @@ class PatientType(DjangoObjectType):
 
     def resolve_immunotherapies(self, info):
         return self.immunotherapy_set.all()
+
+    def resolve_labtests(self, info):
+        return self.labtest_set.all()
 
     def resolve_outcomes(self, info):
         return self.outcome_set.all()
@@ -216,6 +226,7 @@ class Query:
     diagnoses = DjangoFilterListField(DiagnosisType)
     enrollments = DjangoFilterListField(EnrollmentType)
     immunotherapies = DjangoFilterListField(ImmunotherapyType)
+    labtests = DjangoFilterListField(LabtestType)
     outcomes = DjangoFilterListField(OutcomeType)
     patients = DjangoFilterListField(PatientType)
     radiotherapies = DjangoFilterListField(RadiotherapyType)
