@@ -3,6 +3,16 @@
 This application contains the metadata-related models from CanDIG v1, reorganized
 as a micro-service build with Django and offering GraphQL querying capacities.
 
+## Configuration
+
+At the root of this project there is a sample dotenv file (.env-sample). These can be
+exported as environment variables or used as is. Simply copy the sample file and
+provide the missing values.
+
+```bash
+cp .env-sample .env
+```
+
 ## Development setup
 
 Development dependencies are described in `requirements.txt` and can be

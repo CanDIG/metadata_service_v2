@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,10 +27,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd1r6+)u4rfy&2u-rs#t5awv#zi(pvel7#etgwc2dytbhfvs8_z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("METADATA_DEBUG", "true").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get("METADATA_SERVICE_HOST", "localhost")]
 
+if DEBUG:
+    ALLOWED_HOSTS = list(set(ALLOWED_HOSTS + ["localhost", "127.0.0.1", "[::1]"]))
 
 # Application definition
 
@@ -127,3 +133,8 @@ STATIC_URL = '/static/'
 GRAPHENE = {
     'SCHEMA': 'candig_metadata.candig.schema.schema'
 }
+
+# Remote services
+
+# TODO: should mandatory really, give default value for now
+DATASET_SERVICE_URL = os.environ.get('DATASET_SERVICE_URL', None)
