@@ -8,22 +8,23 @@
 from django.db import models
 
 
-class Dataset(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    info = models.TextField(blank=True, null=True)
-    name = models.TextField(unique=True)
-
-    class Meta:
-        managed = False
-        db_table = 'dataset'
+#class Dataset(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    info = models.TextField(blank=True, null=True)
+#    name = models.TextField(unique=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'dataset'
 
 
 class Patient(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -66,95 +67,96 @@ class Patient(models.Model):
     occupational_or_environmental_exposure_tier = models.IntegerField(db_column='occupationalOrEnvironmentalExposureTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'patient'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
 
 # TODO: Keep or not?
-class Alignment(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
-    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
-    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
-    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
-    alignment_tool = models.TextField(db_column='alignmentTool', blank=True, null=True)
-    alignment_tool_tier = models.IntegerField(db_column='alignmentToolTier', blank=True, null=True)
-    merge_tool = models.TextField(db_column='mergeTool', blank=True, null=True)
-    merge_tool_tier = models.IntegerField(db_column='mergeToolTier', blank=True, null=True)
-    mark_duplicates = models.TextField(db_column='markDuplicates', blank=True, null=True)
-    mark_duplicates_tier = models.IntegerField(db_column='markDuplicatesTier', blank=True, null=True)
-    realigner_target = models.TextField(db_column='realignerTarget', blank=True, null=True)
-    realigner_target_tier = models.IntegerField(db_column='realignerTargetTier', blank=True, null=True)
-    indel_realigner = models.TextField(db_column='indelRealigner', blank=True, null=True)
-    indel_realigner_tier = models.IntegerField(db_column='indelRealignerTier', blank=True, null=True)
-    base_recalibrator = models.TextField(db_column='baseRecalibrator', blank=True, null=True)
-    base_recalibrator_tier = models.IntegerField(db_column='baseRecalibratorTier', blank=True, null=True)
-    print_reads = models.TextField(db_column='printReads', blank=True, null=True)
-    print_reads_tier = models.IntegerField(db_column='printReadsTier', blank=True, null=True)
-    idx_stats = models.TextField(db_column='idxStats', blank=True, null=True)
-    idx_stats_tier = models.IntegerField(db_column='idxStatsTier', blank=True, null=True)
-    flag_stat = models.TextField(db_column='flagStat', blank=True, null=True)
-    flag_stat_tier = models.IntegerField(db_column='flagStatTier', blank=True, null=True)
-    coverage = models.TextField(blank=True, null=True)
-    coverage_tier = models.IntegerField(db_column='coverageTier', blank=True, null=True)
-    insert_size_metrics = models.TextField(db_column='insertSizeMetrics', blank=True, null=True)
-    insert_size_metrics_tier = models.IntegerField(db_column='insertSizeMetricsTier', blank=True, null=True)
-    fastqc = models.TextField(blank=True, null=True)
-    fastqc_tier = models.IntegerField(db_column='fastqcTier', blank=True, null=True)
-    reference = models.TextField(blank=True, null=True)
-    reference_tier = models.IntegerField(db_column='referenceTier', blank=True, null=True)
-    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
-    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'alignment'
-        unique_together = (('dataset', 'name'),)
+#class Alignment(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
+#    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
+#    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
+#    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
+#    alignment_tool = models.TextField(db_column='alignmentTool', blank=True, null=True)
+#    alignment_tool_tier = models.IntegerField(db_column='alignmentToolTier', blank=True, null=True)
+#    merge_tool = models.TextField(db_column='mergeTool', blank=True, null=True)
+#    merge_tool_tier = models.IntegerField(db_column='mergeToolTier', blank=True, null=True)
+#    mark_duplicates = models.TextField(db_column='markDuplicates', blank=True, null=True)
+#    mark_duplicates_tier = models.IntegerField(db_column='markDuplicatesTier', blank=True, null=True)
+#    realigner_target = models.TextField(db_column='realignerTarget', blank=True, null=True)
+#    realigner_target_tier = models.IntegerField(db_column='realignerTargetTier', blank=True, null=True)
+#    indel_realigner = models.TextField(db_column='indelRealigner', blank=True, null=True)
+#    indel_realigner_tier = models.IntegerField(db_column='indelRealignerTier', blank=True, null=True)
+#    base_recalibrator = models.TextField(db_column='baseRecalibrator', blank=True, null=True)
+#    base_recalibrator_tier = models.IntegerField(db_column='baseRecalibratorTier', blank=True, null=True)
+#    print_reads = models.TextField(db_column='printReads', blank=True, null=True)
+#    print_reads_tier = models.IntegerField(db_column='printReadsTier', blank=True, null=True)
+#    idx_stats = models.TextField(db_column='idxStats', blank=True, null=True)
+#    idx_stats_tier = models.IntegerField(db_column='idxStatsTier', blank=True, null=True)
+#    flag_stat = models.TextField(db_column='flagStat', blank=True, null=True)
+#    flag_stat_tier = models.IntegerField(db_column='flagStatTier', blank=True, null=True)
+#    coverage = models.TextField(blank=True, null=True)
+#    coverage_tier = models.IntegerField(db_column='coverageTier', blank=True, null=True)
+#    insert_size_metrics = models.TextField(db_column='insertSizeMetrics', blank=True, null=True)
+#    insert_size_metrics_tier = models.IntegerField(db_column='insertSizeMetricsTier', blank=True, null=True)
+#    fastqc = models.TextField(blank=True, null=True)
+#    fastqc_tier = models.IntegerField(db_column='fastqcTier', blank=True, null=True)
+#    reference = models.TextField(blank=True, null=True)
+#    reference_tier = models.IntegerField(db_column='referenceTier', blank=True, null=True)
+#    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
+#    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'alignment'
+#        unique_together = (('dataset', 'name'),)
 
 
 # TODO: Keep or not?
-class Celltransplant(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
-    patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
-    start_date = models.TextField(db_column='startDate', blank=True, null=True)
-    start_date_tier = models.IntegerField(db_column='startDateTier', blank=True, null=True)
-    cell_source = models.TextField(db_column='cellSource', blank=True, null=True)
-    cell_source_tier = models.IntegerField(db_column='cellSourceTier', blank=True, null=True)
-    donor_type = models.TextField(db_column='donorType', blank=True, null=True)
-    donor_type_tier = models.IntegerField(db_column='donorTypeTier', blank=True, null=True)
-    treatment_plan_id = models.TextField(db_column='treatmentPlanId', blank=True, null=True)
-    treatment_plan_id_tier = models.IntegerField(db_column='treatmentPlanIdTier', blank=True, null=True)
-    course_number = models.TextField(db_column='courseNumber', blank=True, null=True)
-    course_number_tier = models.IntegerField(db_column='courseNumberTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'celltransplant'
-        unique_together = (('dataset', 'name'),)
+#class Celltransplant(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+#    patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
+#    start_date = models.TextField(db_column='startDate', blank=True, null=True)
+#    start_date_tier = models.IntegerField(db_column='startDateTier', blank=True, null=True)
+#    cell_source = models.TextField(db_column='cellSource', blank=True, null=True)
+#    cell_source_tier = models.IntegerField(db_column='cellSourceTier', blank=True, null=True)
+#    donor_type = models.TextField(db_column='donorType', blank=True, null=True)
+#    donor_type_tier = models.IntegerField(db_column='donorTypeTier', blank=True, null=True)
+#    treatment_plan_id = models.TextField(db_column='treatmentPlanId', blank=True, null=True)
+#    treatment_plan_id_tier = models.IntegerField(db_column='treatmentPlanIdTier', blank=True, null=True)
+#    course_number = models.TextField(db_column='courseNumber', blank=True, null=True)
+#    course_number_tier = models.IntegerField(db_column='courseNumberTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'celltransplant'
+#        unique_together = (('dataset', 'name'),)
 
 
 class Chemotherapy(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -196,9 +198,9 @@ class Chemotherapy(models.Model):
     treatment_plan_id_tier = models.IntegerField(db_column='treatmentPlanIdTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'chemotherapy'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.treatment_plan_id}_{self.systematic_therapy_agent_name}"
@@ -207,7 +209,8 @@ class Chemotherapy(models.Model):
 class Complication(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -227,9 +230,9 @@ class Complication(models.Model):
     treatment_induced_neoplasm_details_tier = models.IntegerField(db_column='treatmentInducedNeoplasmDetailsTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'complication'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.date}"
@@ -238,7 +241,8 @@ class Complication(models.Model):
 class Consent(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey('Dataset', models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -286,17 +290,19 @@ class Consent(models.Model):
     consent_form_complete_tier = models.IntegerField(db_column='consentFormCompleteTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'consent'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.consent_date}"
 
+
 class Diagnosis(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -362,9 +368,9 @@ class Diagnosis(models.Model):
     additional_test_tier = models.IntegerField(db_column='additionalTestTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'diagnosis'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.diagnosis_date}"
@@ -373,7 +379,8 @@ class Diagnosis(models.Model):
 class Enrollment(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -413,120 +420,121 @@ class Enrollment(models.Model):
     treating_centre_province_tier = models.IntegerField(db_column='treatingCentreProvinceTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'enrollment'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.enrollment_approval_date}"
 
 
 # TODO: Keep or not?
-class Expressionanalysis(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    expression_analysis_id = models.TextField(db_column='expressionAnalysisId', blank=True, null=True)
-    expression_analysis_id_tier = models.IntegerField(db_column='expressionAnalysisIdTier', blank=True, null=True)
-    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    read_length = models.TextField(db_column='readLength', blank=True, null=True)
-    read_length_tier = models.IntegerField(db_column='readLengthTier', blank=True, null=True)
-    reference = models.TextField(blank=True, null=True)
-    reference_tier = models.IntegerField(db_column='referenceTier', blank=True, null=True)
-    alignment_tool = models.TextField(db_column='alignmentTool', blank=True, null=True)
-    alignment_tool_tier = models.IntegerField(db_column='alignmentToolTier', blank=True, null=True)
-    bam_handling = models.TextField(db_column='bamHandling', blank=True, null=True)
-    bam_handling_tier = models.IntegerField(db_column='bamHandlingTier', blank=True, null=True)
-    expression_estimation = models.TextField(db_column='expressionEstimation', blank=True, null=True)
-    expression_estimation_tier = models.IntegerField(db_column='expressionEstimationTier', blank=True, null=True)
-    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
-    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'expressionanalysis'
-        unique_together = (('dataset', 'name'),)
-
-
-# TODO: Keep or not?
-class Extraction(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    extraction_id = models.TextField(db_column='extractionId', blank=True, null=True)
-    extraction_id_tier = models.IntegerField(db_column='extractionIdTier', blank=True, null=True)
-    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    rna_blood = models.TextField(db_column='rnaBlood', blank=True, null=True)
-    rna_blood_tier = models.IntegerField(db_column='rnaBloodTier', blank=True, null=True)
-    dna_blood = models.TextField(db_column='dnaBlood', blank=True, null=True)
-    dna_blood_tier = models.IntegerField(db_column='dnaBloodTier', blank=True, null=True)
-    rna_tissue = models.TextField(db_column='rnaTissue', blank=True, null=True)
-    rna_tissue_tier = models.IntegerField(db_column='rnaTissueTier', blank=True, null=True)
-    dna_tissue = models.TextField(db_column='dnaTissue', blank=True, null=True)
-    dna_tissue_tier = models.IntegerField(db_column='dnaTissueTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'extraction'
-        unique_together = (('dataset', 'name'),)
+#class Expressionanalysis(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    expression_analysis_id = models.TextField(db_column='expressionAnalysisId', blank=True, null=True)
+#    expression_analysis_id_tier = models.IntegerField(db_column='expressionAnalysisIdTier', blank=True, null=True)
+#    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    read_length = models.TextField(db_column='readLength', blank=True, null=True)
+#    read_length_tier = models.IntegerField(db_column='readLengthTier', blank=True, null=True)
+#    reference = models.TextField(blank=True, null=True)
+#    reference_tier = models.IntegerField(db_column='referenceTier', blank=True, null=True)
+#    alignment_tool = models.TextField(db_column='alignmentTool', blank=True, null=True)
+#    alignment_tool_tier = models.IntegerField(db_column='alignmentToolTier', blank=True, null=True)
+#    bam_handling = models.TextField(db_column='bamHandling', blank=True, null=True)
+#    bam_handling_tier = models.IntegerField(db_column='bamHandlingTier', blank=True, null=True)
+#    expression_estimation = models.TextField(db_column='expressionEstimation', blank=True, null=True)
+#    expression_estimation_tier = models.IntegerField(db_column='expressionEstimationTier', blank=True, null=True)
+#    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
+#    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'expressionanalysis'
+#        unique_together = (('dataset', 'name'),)
 
 
 # TODO: Keep or not?
-class Fusiondetection(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    fusion_detection_id = models.TextField(db_column='fusionDetectionId', blank=True, null=True)
-    fusion_detection_id_tier = models.IntegerField(db_column='fusionDetectionIdTier', blank=True, null=True)
-    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
-    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
-    sv_detection = models.TextField(db_column='svDetection', blank=True, null=True)
-    sv_detection_tier = models.IntegerField(db_column='svDetectionTier', blank=True, null=True)
-    fusion_detection = models.TextField(db_column='fusionDetection', blank=True, null=True)
-    fusion_detection_tier = models.IntegerField(db_column='fusionDetectionTier', blank=True, null=True)
-    realignment = models.TextField(blank=True, null=True)
-    realignment_tier = models.IntegerField(db_column='realignmentTier', blank=True, null=True)
-    annotation = models.TextField(blank=True, null=True)
-    annotation_tier = models.IntegerField(db_column='annotationTier', blank=True, null=True)
-    genome_reference = models.TextField(db_column='genomeReference', blank=True, null=True)
-    genome_reference_tier = models.IntegerField(db_column='genomeReferenceTier', blank=True, null=True)
-    gene_models = models.TextField(db_column='geneModels', blank=True, null=True)
-    gene_models_tier = models.IntegerField(db_column='geneModelsTier', blank=True, null=True)
-    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
-    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'fusiondetection'
-        unique_together = (('dataset', 'name'),)
+#class Extraction(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    extraction_id = models.TextField(db_column='extractionId', blank=True, null=True)
+#    extraction_id_tier = models.IntegerField(db_column='extractionIdTier', blank=True, null=True)
+#    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    rna_blood = models.TextField(db_column='rnaBlood', blank=True, null=True)
+#    rna_blood_tier = models.IntegerField(db_column='rnaBloodTier', blank=True, null=True)
+#    dna_blood = models.TextField(db_column='dnaBlood', blank=True, null=True)
+#    dna_blood_tier = models.IntegerField(db_column='dnaBloodTier', blank=True, null=True)
+#    rna_tissue = models.TextField(db_column='rnaTissue', blank=True, null=True)
+#    rna_tissue_tier = models.IntegerField(db_column='rnaTissueTier', blank=True, null=True)
+#    dna_tissue = models.TextField(db_column='dnaTissue', blank=True, null=True)
+#    dna_tissue_tier = models.IntegerField(db_column='dnaTissueTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'extraction'
+#        unique_together = (('dataset', 'name'),)
+#
+#
+## TODO: Keep or not?
+#class Fusiondetection(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    fusion_detection_id = models.TextField(db_column='fusionDetectionId', blank=True, null=True)
+#    fusion_detection_id_tier = models.IntegerField(db_column='fusionDetectionIdTier', blank=True, null=True)
+#    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
+#    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
+#    sv_detection = models.TextField(db_column='svDetection', blank=True, null=True)
+#    sv_detection_tier = models.IntegerField(db_column='svDetectionTier', blank=True, null=True)
+#    fusion_detection = models.TextField(db_column='fusionDetection', blank=True, null=True)
+#    fusion_detection_tier = models.IntegerField(db_column='fusionDetectionTier', blank=True, null=True)
+#    realignment = models.TextField(blank=True, null=True)
+#    realignment_tier = models.IntegerField(db_column='realignmentTier', blank=True, null=True)
+#    annotation = models.TextField(blank=True, null=True)
+#    annotation_tier = models.IntegerField(db_column='annotationTier', blank=True, null=True)
+#    genome_reference = models.TextField(db_column='genomeReference', blank=True, null=True)
+#    genome_reference_tier = models.IntegerField(db_column='genomeReferenceTier', blank=True, null=True)
+#    gene_models = models.TextField(db_column='geneModels', blank=True, null=True)
+#    gene_models_tier = models.IntegerField(db_column='geneModelsTier', blank=True, null=True)
+#    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
+#    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'fusiondetection'
+#        unique_together = (('dataset', 'name'),)
 
 
 class Immunotherapy(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -548,21 +556,25 @@ class Immunotherapy(models.Model):
     course_number_tier = models.IntegerField(db_column='courseNumberTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'immunotherapy'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.treatment_plan_id}_{self.start_date}"
 
 
-# TODO: Keep or not?
 class Labtest(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    #patient_id = models.TextField(db_column='patientId', blank=True, null=True)
+    patient = models.ForeignKey(Patient, models.DO_NOTHING, to_field='patient_id', db_column='patientId')
     patient_id_tier = models.IntegerField(db_column='patientIdTier', blank=True, null=True)
     start_date = models.TextField(db_column='startDate', blank=True, null=True)
     start_date_tier = models.IntegerField(db_column='startDateTier', blank=True, null=True)
@@ -580,9 +592,9 @@ class Labtest(models.Model):
     recording_date_tier = models.IntegerField(db_column='recordingDateTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'labtest'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.start_date}"
@@ -591,7 +603,8 @@ class Labtest(models.Model):
 class Outcome(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -635,9 +648,9 @@ class Outcome(models.Model):
     disease_free_survival_in_months_tier = models.IntegerField(db_column='diseaseFreeSurvivalInMonthsTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'outcome'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.date_of_assessment}"
@@ -646,7 +659,8 @@ class Outcome(models.Model):
 class Radiotherapy(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -706,15 +720,19 @@ class Radiotherapy(models.Model):
     boost_dose_tier = models.IntegerField(db_column='boostDoseTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'radiotherapy'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.course_number}_{self.treatment_plan_id}_{self.start_date}"
 
 
 class Sample(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -776,57 +794,58 @@ class Sample(models.Model):
     start_interval_tier = models.IntegerField(db_column='startIntervalTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'sample'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.sample_id}"
 
 
 # TODO: Keep or not?
-class Sequencing(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
-    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
-    #sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id = models.ForeignKey(Sample, models.DO_NOTHING, to_field='sample_id', db_column='sampleId')
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    dna_library_kit = models.TextField(db_column='dnaLibraryKit', blank=True, null=True)
-    dna_library_kit_tier = models.IntegerField(db_column='dnaLibraryKitTier', blank=True, null=True)
-    dna_seq_platform = models.TextField(db_column='dnaSeqPlatform', blank=True, null=True)
-    dna_seq_platform_tier = models.IntegerField(db_column='dnaSeqPlatformTier', blank=True, null=True)
-    dna_read_length = models.TextField(db_column='dnaReadLength', blank=True, null=True)
-    dna_read_length_tier = models.IntegerField(db_column='dnaReadLengthTier', blank=True, null=True)
-    rna_library_kit = models.TextField(db_column='rnaLibraryKit', blank=True, null=True)
-    rna_library_kit_tier = models.IntegerField(db_column='rnaLibraryKitTier', blank=True, null=True)
-    rna_seq_platform = models.TextField(db_column='rnaSeqPlatform', blank=True, null=True)
-    rna_seq_platform_tier = models.IntegerField(db_column='rnaSeqPlatformTier', blank=True, null=True)
-    rna_read_length = models.TextField(db_column='rnaReadLength', blank=True, null=True)
-    rna_read_length_tier = models.IntegerField(db_column='rnaReadLengthTier', blank=True, null=True)
-    pcr_cycles = models.TextField(db_column='pcrCycles', blank=True, null=True)
-    pcr_cycles_tier = models.IntegerField(db_column='pcrCyclesTier', blank=True, null=True)
-    extraction_id = models.TextField(db_column='extractionId', blank=True, null=True)
-    extraction_id_tier = models.IntegerField(db_column='extractionIdTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sequencing'
-        unique_together = (('dataset', 'name'),)
+#class Sequencing(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    sequencing_id = models.TextField(db_column='sequencingId', blank=True, null=True)
+#    sequencing_id_tier = models.IntegerField(db_column='sequencingIdTier', blank=True, null=True)
+#    #sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id = models.ForeignKey(Sample, models.DO_NOTHING, to_field='sample_id', db_column='sampleId')
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    dna_library_kit = models.TextField(db_column='dnaLibraryKit', blank=True, null=True)
+#    dna_library_kit_tier = models.IntegerField(db_column='dnaLibraryKitTier', blank=True, null=True)
+#    dna_seq_platform = models.TextField(db_column='dnaSeqPlatform', blank=True, null=True)
+#    dna_seq_platform_tier = models.IntegerField(db_column='dnaSeqPlatformTier', blank=True, null=True)
+#    dna_read_length = models.TextField(db_column='dnaReadLength', blank=True, null=True)
+#    dna_read_length_tier = models.IntegerField(db_column='dnaReadLengthTier', blank=True, null=True)
+#    rna_library_kit = models.TextField(db_column='rnaLibraryKit', blank=True, null=True)
+#    rna_library_kit_tier = models.IntegerField(db_column='rnaLibraryKitTier', blank=True, null=True)
+#    rna_seq_platform = models.TextField(db_column='rnaSeqPlatform', blank=True, null=True)
+#    rna_seq_platform_tier = models.IntegerField(db_column='rnaSeqPlatformTier', blank=True, null=True)
+#    rna_read_length = models.TextField(db_column='rnaReadLength', blank=True, null=True)
+#    rna_read_length_tier = models.IntegerField(db_column='rnaReadLengthTier', blank=True, null=True)
+#    pcr_cycles = models.TextField(db_column='pcrCycles', blank=True, null=True)
+#    pcr_cycles_tier = models.IntegerField(db_column='pcrCyclesTier', blank=True, null=True)
+#    extraction_id = models.TextField(db_column='extractionId', blank=True, null=True)
+#    extraction_id_tier = models.IntegerField(db_column='extractionIdTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'sequencing'
+#        unique_together = (('dataset', 'name'),)
 
 
 class Slide(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -868,9 +887,9 @@ class Slide(models.Model):
     section_location_tier = models.IntegerField(db_column='sectionLocationTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'slide'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.slide_id}"
@@ -879,7 +898,8 @@ class Slide(models.Model):
 class Study(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -897,9 +917,9 @@ class Study(models.Model):
     recording_date_tier = models.IntegerField(db_column='recordingDateTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'study'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.start_date}"
@@ -908,7 +928,8 @@ class Study(models.Model):
 class Surgery(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -921,7 +942,7 @@ class Surgery(models.Model):
     stop_date = models.TextField(db_column='stopDate', blank=True, null=True)
     stop_date_tier = models.IntegerField(db_column='stopDateTier', blank=True, null=True)
     #sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id = models.ForeignKey(Sample, models.DO_NOTHING, to_field='sample_id', db_column='sampleId')
+    sample = models.ForeignKey(Sample, models.DO_NOTHING, to_field='sample_id', db_column='sampleId')
     sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
     collection_time_point = models.TextField(db_column='collectionTimePoint', blank=True, null=True)
     collection_time_point_tier = models.IntegerField(db_column='collectionTimePointTier', blank=True, null=True)
@@ -939,26 +960,30 @@ class Surgery(models.Model):
     course_number_tier = models.IntegerField(db_column='courseNumberTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'surgery'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
+
+    def generate_name(self, patient_id):
+        self.name = f"{patient_id}_{self.treatment_plan_id}_{self.start_date}_{self.sample_id}"
 
 
 # TODO: Keep or not?
-class System(models.Model):
-    key = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    value = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'system'
+#class System(models.Model):
+#    key = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    value = models.TextField()
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'system'
 
 
 class Treatment(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -998,17 +1023,19 @@ class Treatment(models.Model):
     treatment_plan_id_tier = models.IntegerField(db_column='treatmentPlanIdTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'treatment'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.start_date}"
 
+
 class Tumourboard(models.Model):
     id = models.TextField(primary_key=True)
     attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    #dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+    dataset_id = models.TextField(db_column='datasetId')
     created = models.TextField()
     updated = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -1076,55 +1103,55 @@ class Tumourboard(models.Model):
     summary_report_tier = models.IntegerField(db_column='summaryReportTier', blank=True, null=True)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'tumourboard'
-        unique_together = (('dataset', 'name'),)
+        unique_together = (('dataset_id', 'name'),)
 
     def generate_name(self, patient_id):
         self.name = f"{patient_id}_{self.date_of_molecular_tumor_board}"
 
 
 # TODO: Keep or not?
-class Variantcalling(models.Model):
-    id = models.TextField(primary_key=True)
-    attributes = models.TextField(blank=True, null=True)
-    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
-    created = models.TextField()
-    updated = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    variant_calling_id = models.TextField(db_column='variantCallingId', blank=True, null=True)
-    variant_calling_id_tier = models.IntegerField(db_column='variantCallingIdTier', blank=True, null=True)
-    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
-    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
-    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
-    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
-    variant_caller = models.TextField(db_column='variantCaller', blank=True, null=True)
-    variant_caller_tier = models.IntegerField(db_column='variantCallerTier', blank=True, null=True)
-    tabulate = models.TextField(blank=True, null=True)
-    tabulate_tier = models.IntegerField(db_column='tabulateTier', blank=True, null=True)
-    annotation = models.TextField(blank=True, null=True)
-    annotation_tier = models.IntegerField(db_column='annotationTier', blank=True, null=True)
-    merge_tool = models.TextField(db_column='mergeTool', blank=True, null=True)
-    merge_tool_tier = models.IntegerField(db_column='mergeToolTier', blank=True, null=True)
-    rda_to_tab = models.TextField(db_column='rdaToTab', blank=True, null=True)
-    rda_to_tab_tier = models.IntegerField(db_column='rdaToTabTier', blank=True, null=True)
-    delly = models.TextField(blank=True, null=True)
-    delly_tier = models.IntegerField(db_column='dellyTier', blank=True, null=True)
-    post_filter = models.TextField(db_column='postFilter', blank=True, null=True)
-    post_filter_tier = models.IntegerField(db_column='postFilterTier', blank=True, null=True)
-    clip_filter = models.TextField(db_column='clipFilter', blank=True, null=True)
-    clip_filter_tier = models.IntegerField(db_column='clipFilterTier', blank=True, null=True)
-    cosmic = models.TextField(blank=True, null=True)
-    cosmic_tier = models.IntegerField(db_column='cosmicTier', blank=True, null=True)
-    db_snp = models.TextField(db_column='dbSnp', blank=True, null=True)
-    db_snp_tier = models.IntegerField(db_column='dbSnpTier', blank=True, null=True)
-    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
-    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
-    site = models.TextField(blank=True, null=True)
-    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'variantcalling'
-        unique_together = (('dataset', 'name'),)
+#class Variantcalling(models.Model):
+#    id = models.TextField(primary_key=True)
+#    attributes = models.TextField(blank=True, null=True)
+#    dataset = models.ForeignKey(Dataset, models.DO_NOTHING, db_column='datasetId')
+#    created = models.TextField()
+#    updated = models.TextField(blank=True, null=True)
+#    name = models.TextField(blank=True, null=True)
+#    description = models.TextField(blank=True, null=True)
+#    variant_calling_id = models.TextField(db_column='variantCallingId', blank=True, null=True)
+#    variant_calling_id_tier = models.IntegerField(db_column='variantCallingIdTier', blank=True, null=True)
+#    sample_id = models.TextField(db_column='sampleId', blank=True, null=True)
+#    sample_id_tier = models.IntegerField(db_column='sampleIdTier', blank=True, null=True)
+#    in_house_pipeline = models.TextField(db_column='inHousePipeline', blank=True, null=True)
+#    in_house_pipeline_tier = models.IntegerField(db_column='inHousePipelineTier', blank=True, null=True)
+#    variant_caller = models.TextField(db_column='variantCaller', blank=True, null=True)
+#    variant_caller_tier = models.IntegerField(db_column='variantCallerTier', blank=True, null=True)
+#    tabulate = models.TextField(blank=True, null=True)
+#    tabulate_tier = models.IntegerField(db_column='tabulateTier', blank=True, null=True)
+#    annotation = models.TextField(blank=True, null=True)
+#    annotation_tier = models.IntegerField(db_column='annotationTier', blank=True, null=True)
+#    merge_tool = models.TextField(db_column='mergeTool', blank=True, null=True)
+#    merge_tool_tier = models.IntegerField(db_column='mergeToolTier', blank=True, null=True)
+#    rda_to_tab = models.TextField(db_column='rdaToTab', blank=True, null=True)
+#    rda_to_tab_tier = models.IntegerField(db_column='rdaToTabTier', blank=True, null=True)
+#    delly = models.TextField(blank=True, null=True)
+#    delly_tier = models.IntegerField(db_column='dellyTier', blank=True, null=True)
+#    post_filter = models.TextField(db_column='postFilter', blank=True, null=True)
+#    post_filter_tier = models.IntegerField(db_column='postFilterTier', blank=True, null=True)
+#    clip_filter = models.TextField(db_column='clipFilter', blank=True, null=True)
+#    clip_filter_tier = models.IntegerField(db_column='clipFilterTier', blank=True, null=True)
+#    cosmic = models.TextField(blank=True, null=True)
+#    cosmic_tier = models.IntegerField(db_column='cosmicTier', blank=True, null=True)
+#    db_snp = models.TextField(db_column='dbSnp', blank=True, null=True)
+#    db_snp_tier = models.IntegerField(db_column='dbSnpTier', blank=True, null=True)
+#    alignment_id = models.TextField(db_column='alignmentId', blank=True, null=True)
+#    alignment_id_tier = models.IntegerField(db_column='alignmentIdTier', blank=True, null=True)
+#    site = models.TextField(blank=True, null=True)
+#    site_tier = models.IntegerField(db_column='siteTier', blank=True, null=True)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'variantcalling'
+#        unique_together = (('dataset', 'name'),)
