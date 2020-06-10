@@ -46,9 +46,9 @@ INSTALLED_APPS = [
 
     'django_filters',
     'graphene_django',
+    'django_prometheus',
 
     'candig_metadata.metadata',
-    'django_prometheus',
 ]
 
 MIDDLEWARE = [
