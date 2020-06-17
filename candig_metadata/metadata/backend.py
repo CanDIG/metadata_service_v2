@@ -30,3 +30,21 @@ def create_or_query_dataset(dataset_id):
     res.raise_for_status()
 
     return True
+
+
+def query_authorization_level(token, dataset):
+    # let's pretend we get these from the token
+    issuer = 'https://candigauth.calculquebec.ca/auth/realms/candig'
+    username = 'poq'
+
+    url = f"{settings.AUTHZ_SERVICE_URL}/authz?issuer={issuer}&username={username}"
+
+    res = requests.get(url)
+
+    res.raise_for_status()
+    perms = res.json()
+
+    if dataset in perms:
+        return perms[dataset]
+    else:
+        return 0

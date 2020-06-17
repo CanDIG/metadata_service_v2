@@ -141,3 +141,4 @@ GRAPHENE = {
 
 # TODO: should mandatory really, give default value for now
 DATASET_SERVICE_URL = os.environ.get('DATASET_SERVICE_URL', None)
+AUTHZ_SERVICE_URL = os.environ.get('AUTHZ_SERVICE_URL', None)

@@ -1,3 +1,6 @@
+from candig_metadata.metadata.backend import query_authorization_level
+
+
 def resolve_field_factory(field_name):
     def resolve_field(*args, **kwargs):
         instance = args[0]
@@ -6,7 +9,7 @@ def resolve_field_factory(field_name):
 
         # TODO: retrieve tier value with some token or something
         # info.context.headers
-        tier = 4
+        tier = query_authorization_level('token will be here', instance.dataset_id)
 
         if hasattr(instance, tiered_field_name):
             if tier >= getattr(instance, tiered_field_name):
