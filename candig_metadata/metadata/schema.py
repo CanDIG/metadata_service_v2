@@ -123,6 +123,7 @@ class PatientType(DjangoObjectType):
         # TODO: Subclass and automatize?
         exclude_fields = []
         filter_fields = {
+            "dataset_id": ("exact",),
             "patient_id": ("exact",),
             "gender": ("exact",),
             "name": ("icontains", "iexact")
